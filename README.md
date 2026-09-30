@@ -12,8 +12,11 @@ Backtests a "base-break" trading pattern on S&P 500 daily bars:
 ## Files
 
 - `backtest.py` — core engine (base detection, entries, exits, metrics)
-- `sweep.py` — coarse parameter sweep driver
+- `sweep.py` / `refine.py` / `robust.py` — parameter sweep, refinement, year-by-year checks
 - `download.py` — daily OHLCV downloader (Nasdaq public API)
+- `strategy_params.json` — exact winning parameters per variant, machine-readable
+- `live_scan.py` — daily live signal scanner (run after the close; mirrors backtest.py)
+- `STRATEGY_SPEC.md` — full bot implementation spec
 - `results/` — sweep output CSVs
 
 ## Quick start

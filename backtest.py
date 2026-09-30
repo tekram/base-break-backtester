@@ -54,6 +54,34 @@ def rolling_bases(df, base_len, tightness):
     return event, rmax, rmin
 
 
+def trigger_day(h, l, c, v, n, i, bh, bl, cfg):
+    """First trigger day j in (i, i+signal_days], capped so j+1 < n (next open exists).
+    Returns -1 if no trigger. Shared by the backtester and the live scanner."""
+    entry = cfg["entry"]
+    sig_days = cfg.get("signal_days", 10)
+    end = min(i + 1 + sig_days, n - 1)
+    if entry == "undercut":
+        md = cfg["undercut_depth"]
+        for j in range(i + 1, end):
+            if l[j] <= bl * (1 - md) and c[j] > bl:
+                return j
+    elif entry == "breakout":
+        buf = cfg["breakout_buffer"]
+        vol_mult = cfg.get("vol_mult", 0)
+        for j in range(i + 1, end):
+            if c[j] > bh * (1 + buf):
+                if vol_mult and j >= 20:
+                    if v[j] < vol_mult * np.mean(v[j - 20:j]):
+                        continue
+                return j
+    elif entry == "bottom":
+        zone = cfg["bottom_zone"]
+        for j in range(i + 1, end):
+            if l[j] <= bl * (1 + zone):
+                return j
+    return -1
+
+
 def find_trades(df, event_idx, base_high, base_low, cfg):
     """Simulate trades for one ticker given base events. Returns list of dicts."""
     o = df["Open"].to_numpy()
@@ -62,8 +90,6 @@ def find_trades(df, event_idx, base_high, base_low, cfg):
     c = df["Close"].to_numpy()
     v = df["Volume"].to_numpy()
     n = len(df)
-    entry = cfg["entry"]
-    sig_days = cfg.get("signal_days", 10)
     stop_pct = cfg["stop_pct"]
     target = cfg["target_R"] * stop_pct
     max_hold = cfg["max_hold"]
@@ -86,29 +112,7 @@ def find_trades(df, event_idx, base_high, base_low, cfg):
             if i < 200 or c[i] < np.mean(c[i - 200:i]):
                 continue
 
-        trig = -1
-        if entry == "undercut":
-            md = cfg["undercut_depth"]
-            for j in range(i + 1, min(i + 1 + sig_days, n - 1)):
-                if l[j] <= bl * (1 - md) and c[j] > bl:
-                    trig = j
-                    break
-        elif entry == "breakout":
-            buf = cfg["breakout_buffer"]
-            vol_mult = cfg.get("vol_mult", 0)
-            for j in range(i + 1, min(i + 1 + sig_days, n - 1)):
-                if c[j] > bh * (1 + buf):
-                    if vol_mult and j >= 20:
-                        if v[j] < vol_mult * np.mean(v[j - 20:j]):
-                            continue
-                    trig = j
-                    break
-        elif entry == "bottom":
-            zone = cfg["bottom_zone"]
-            for j in range(i + 1, min(i + 1 + sig_days, n - 1)):
-                if l[j] <= bl * (1 + zone):
-                    trig = j
-                    break
+        trig = trigger_day(h, l, c, v, n, i, bh, bl, cfg)
         if trig < 0:
             continue
         ep = o[trig + 1]  # enter next open
