@@ -1,0 +1,57 @@
+{
+  "breakout": {
+    "above_200dma": true,
+    "base_len": 40,
+    "breakout_buffer": 0.003,
+    "max_hold": 20,
+    "signal_days": 10,
+    "sma_lookback": 200,
+    "stop_pct": 0.06,
+    "target_R": 3.0,
+    "tightness": 0.12,
+    "vol_lookback": 20,
+    "vol_mult": 2.0,
+    "entry": "breakout",
+    "tuned_backtest": {
+      "expectancy_R": 0.331,
+      "trades": 184,
+      "win_rate": 0.62,
+      "profit_factor": 2.11
+    }
+  },
+  "undercut": {
+    "above_200dma": true,
+    "base_len": 20,
+    "max_hold": 60,
+    "signal_days": 10,
+    "sma_lookback": 200,
+    "stop_pct": 0.06,
+    "target_R": 4.0,
+    "tightness": 0.08,
+    "undercut_depth": 0.015,
+    "entry": "undercut",
+    "tuned_backtest": {
+      "expectancy_R": 0.327,
+      "trades": 255,
+      "win_rate": 0.447,
+      "profit_factor": 1.6
+    }
+  },
+  "bottom": {
+    "above_200dma": false,
+    "base_len": 2,
+    "bottom_zone": 0.02,
+    "max_hold": 20,
+    "signal_days": 10,
+    "stop_pct": 0.02,
+    "target_R": 4.0,
+    "tightness": 0.15,
+    "entry": "bottom",
+    "tuned_backtest": {
+      "expectancy_R": 0.769,
+      "trades": 2211,
+      "win_rate": 0.38,
+      "profit_factor": 2.18
+    }
+  }
+}

@@ -1,6 +1,0 @@
-data/bars/
-data/sp500_tickers.txt
-__pycache__/
-*.pyc
-positions.json
-signals.json
