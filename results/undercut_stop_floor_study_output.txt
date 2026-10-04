@@ -1,0 +1,19 @@
+C:\Users\avrfa\agentic-trading\scripts\research\undercut_stop_floor_study.py:110: RuntimeWarning: divide by zero encountered in scalar divide
+  card_atr=(fill - float(r.stop)) / atr))
+entries: 4857
+
+stop floor     n  risk% |   meanR            CI90mo  win%  stop% |   mean%            CI90mo   med%
+      card  4857    5.5 |  +0.338 [+0.071,+0.636]  32.5   55.8 |   +1.42 [+0.45,+2.38]  -2.54
+   1.0 ATR  4857    5.7 |  +0.342 [+0.081,+0.640]  33.9   54.0 |   +1.46 [+0.45,+2.45]  -2.71
+   1.5 ATR  4857    6.8 |  +0.340 [+0.096,+0.625]  37.9   47.2 |   +1.63 [+0.49,+2.70]  -2.62
+   2.0 ATR  4856    8.4 |  +0.333 [+0.104,+0.607]  41.6   38.8 |   +1.76 [+0.53,+2.97]  -1.77
+   2.5 ATR  4856   10.4 |  +0.321 [+0.103,+0.591]  44.6   30.4 |   +1.93 [+0.63,+3.21]  -0.92
+   3.0 ATR  4856   12.5 |  +0.306 [+0.096,+0.573]  46.4   23.7 |   +2.10 [+0.70,+3.48]  -0.57
+
+Subset: card stop < 1.5 ATR, n=3193
+      card meanR=+0.126 win%=28.6 stop%=63.9 mean%=+0.82 [-0.13,+1.77]
+   1.0 ATR meanR=+0.133 win%=30.7 stop%=61.1 mean%=+0.88 [-0.10,+1.87]
+   1.5 ATR meanR=+0.130 win%=36.8 stop%=50.8 mean%=+1.13 [-0.02,+2.26]
+   2.0 ATR meanR=+0.123 win%=41.5 stop%=40.3 mean%=+1.29 [+0.01,+2.55]
+   2.5 ATR meanR=+0.114 win%=44.8 stop%=31.5 mean%=+1.48 [+0.11,+2.80]
+   3.0 ATR meanR=+0.107 win%=46.9 stop%=24.6 mean%=+1.71 [+0.20,+3.14]
